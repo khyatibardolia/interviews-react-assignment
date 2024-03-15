@@ -1,7 +1,7 @@
-import { Cart, Products } from './Products.tsx';
+import { Cart, Products } from './components/Products/Products.tsx';
 import { Box, CssBaseline } from '@mui/material';
-import SearchAppBar from './SearchAppBar.tsx';
-import { Categories } from './Categories.tsx';
+import SearchAppBar from './components/SearchAppBar/SearchAppBar.tsx';
+import { Categories } from './components/Categories/Categories.tsx';
 import { useState } from 'react';
 
 function App() {

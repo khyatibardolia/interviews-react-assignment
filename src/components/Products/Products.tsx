@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
-import { HeavyComponent } from './HeavyComponent.tsx';
+import { HeavyComponent } from '../HeavyComponent/HeavyComponent.tsx';
 
 export type Product = {
   id: number;
@@ -76,7 +76,7 @@ export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void 
     <Box overflow="scroll" height="100%">
       <Grid container spacing={2} p={2}>
         {products.map(product => (
-          <Grid item xs={4}>
+          <Grid item xs={4} key={product.id}>
             {/* Do not remove this */}
             <HeavyComponent/>
             <Card key={product.id} style={{ width: '100%' }}>
