@@ -1,5 +1,6 @@
 import { delay, http, HttpResponse } from 'msw';
 import { names } from './names.ts';
+import {categories} from "./categories";
 
 type Product = {
   id: number;
@@ -8,8 +9,6 @@ type Product = {
   price: number;
   category: string;
 };
-
-const categories = ['Fruit', 'Vegetables', 'Dairy', 'Bakery', 'Meat', 'Seafood', 'Snacks', 'Beverages'];
 
 function randomGroceryCategory() {
   return categories[Math.floor(Math.random() * categories.length)];

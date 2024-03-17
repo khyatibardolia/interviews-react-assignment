@@ -1,8 +1,7 @@
 import { Box, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import {categories} from "../../mocks/categories";
 
 const drawerWidth = 180;
-
-const categories = ['Fruit', 'Vegetables', 'Dairy', 'Bakery', 'Meat', 'Seafood', 'Snacks', 'Beverages'];
 
 export const Categories = () => {
   return (
