@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import {
   Box,
   Card,
@@ -13,32 +13,69 @@ import {
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import { HeavyComponent } from '../HeavyComponent/HeavyComponent.tsx';
+import {useAppDispatch, useAppSelector} from "../../store";
+import { fetchProducts } from '../../store/actions/productActions';
+import { incrementPage } from '../../store/reducers/productsSlice';
+import {Item} from "../../types/products";
+import {Cart} from "../../types/cart";
 
-export type Product = {
-  id: number;
-  name: string;
-  imageUrl: string;
-  price: number;
-  category: string;
-  itemInCart: number;
-  loading: boolean;
-};
-
-export type Cart = {
-  items: Product[];
-  totalPrice: number;
-  totalItems: number;
-}
 export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void }) => {
 
-  const [products, setProducts] = useState<Product[]>([]);
+  const loaderRef = useRef<HTMLDivElement | null>(null);
+
+  const dispatch = useAppDispatch();
+  const { products, loading, page } = useAppSelector((state) => state.products)
+
 
   useEffect(() => {
-    fetch('/products?limit=200').then(response => response.json()).then(data => setProducts(data.products));
+    // Fetch products only if there are no products loaded and no scroll event has been triggered
+      dispatch(fetchProducts());
+  }, [dispatch, page]);
+
+  /*function fetchProducts() {
+    setLoading(true);
+    fetch(`/products?page=${page}&limit=10`)
+        .then((response) => response.json())
+        .then((data) => {
+          if(data.products?.length > 0) {
+            setProducts((prevProducts: Product[] | []) => [
+              ...prevProducts,
+              ...data.products,
+            ]);
+            setLoading(false);
+          }
+        });
+  }*/
+
+  function handleObserver(entities: IntersectionObserverEntry[]) {
+    const target = entities[0];
+    if (target.isIntersecting) {
+      dispatch(incrementPage());
+    }
+  }
+
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: '30px',
+      threshold: 1,
+    };
+
+    const observer = new IntersectionObserver(handleObserver, options);
+    if (loaderRef.current instanceof Element) {
+      observer.observe(loaderRef.current);
+    }
+
+    return () => {
+      if (loaderRef.current instanceof Element) {
+        observer.unobserve(loaderRef.current);
+      }
+    };
   }, []);
 
   function addToCart(productId: number, quantity: number) {
-    setProducts(products.map(product => {
+    //Todo: refactor add to cart code
+   /* setProducts(products.map(product => {
       if (product.id === productId) {
         return {
           ...product,
@@ -69,14 +106,14 @@ export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void 
         onCartChange(cart);
 
       }
-    });
+    });*/
   }
 
   return (
     <Box overflow="scroll" height="100%">
       <Grid container spacing={2} p={2}>
-        {products.map(product => (
-          <Grid item xs={4} key={product.id}>
+        {products && products.length && products.map((product: Item, index: number) => (
+          <Grid item xs={4} key={`${product.id}-${index}`}>
             {/* Do not remove this */}
             <HeavyComponent/>
             <Card key={product.id} style={{ width: '100%' }}>
@@ -102,7 +139,7 @@ export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void 
                   <Box position="absolute" left={0} right={0} top={0} bottom={0} textAlign="center">
                     {product.loading && <CircularProgress size={20}/>}
                   </Box>
-                  <IconButton disabled={product.loading} aria-label="delete" size="small"
+                  <IconButton disabled={loading} aria-label="delete" size="small"
                               onClick={() => addToCart(product.id, -1)}>
                     <RemoveIcon fontSize="small"/>
                   </IconButton>
@@ -111,7 +148,7 @@ export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void 
                     {product.itemInCart || 0}
                   </Typography>
 
-                  <IconButton disabled={product.loading} aria-label="add" size="small"
+                  <IconButton disabled={loading} aria-label="add" size="small"
                               onClick={() => addToCart(product.id, 1)}>
                     <AddIcon fontSize="small"/>
                   </IconButton>
@@ -122,6 +159,10 @@ export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void 
           </Grid>
         ))}
       </Grid>
+      <Box ref={loaderRef} sx={{ display: 'flex', justifyContent: 'center',
+        visibility: loading ? 'visible' : 'hidden', height: '100px' }}>
+        {loading && <CircularProgress size={75} />}
+      </Box>
     </Box>
   );
 };
