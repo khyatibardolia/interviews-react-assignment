@@ -1,5 +1,5 @@
 import {ActionReducerMapBuilder, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import { Product } from '../../types/products';
+import {Product} from '../../types/products';
 import {fetchProducts} from "../actions/productActions";
 
 interface ProductsState {
@@ -31,7 +31,10 @@ const productsSlice = createSlice({
         })
         builder.addCase(fetchProducts.fulfilled, (state: ProductsState, action: PayloadAction<Product[]>) => {
             state.loading = false;
-            state.products.push(...action.payload);
+            const uniqueProducts: Product[] = action.payload.filter(
+                (product: Product) => !state.products.some((p: Product) => p.id === product.id)
+            );
+            state.products.push(...uniqueProducts);
         })
         builder.addCase(fetchProducts.rejected, (state: ProductsState, action: PayloadAction<string | null>) => {
             state.loading = false;

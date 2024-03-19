@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import {useEffect, useRef} from 'react';
 import {
   Box,
   Card,
@@ -22,15 +22,23 @@ import {Cart} from "../../types/cart";
 export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void }) => {
 
   const loaderRef = useRef<HTMLDivElement | null>(null);
-
+  const initialLoadRef = useRef(true);
   const dispatch = useAppDispatch();
   const { products, loading, page } = useAppSelector((state) => state.products)
 
 
   useEffect(() => {
-    // Fetch products only if there are no products loaded and no scroll event has been triggered
-      dispatch(fetchProducts());
+    dispatch(fetchProducts());
   }, [dispatch, page]);
+
+  function handleObserver(entities: IntersectionObserverEntry[]) {
+    const target = entities[0];
+    if (target.isIntersecting && !initialLoadRef.current) {
+      dispatch(incrementPage());
+    } else {
+      initialLoadRef.current = false;
+    }
+  }
 
   /*function fetchProducts() {
     setLoading(true);
@@ -46,13 +54,6 @@ export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void 
           }
         });
   }*/
-
-  function handleObserver(entities: IntersectionObserverEntry[]) {
-    const target = entities[0];
-    if (target.isIntersecting) {
-      dispatch(incrementPage());
-    }
-  }
 
   useEffect(() => {
     const options = {
@@ -112,7 +113,7 @@ export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void 
   return (
     <Box overflow="scroll" height="100%">
       <Grid container spacing={2} p={2}>
-        {products && products.length && products.map((product: Item, index: number) => (
+        {products && products.length > 0 && products.map((product: Item, index: number) => (
           <Grid item xs={4} key={`${product.id}-${index}`}>
             {/* Do not remove this */}
             <HeavyComponent/>
