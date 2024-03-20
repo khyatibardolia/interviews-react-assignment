@@ -7,6 +7,10 @@ import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import { Badge } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import {ChangeEvent, useEffect} from "react";
+import {fetchProducts} from "../../store/actions/productActions";
+import {useAppDispatch, useAppSelector} from "../../store";
+import {clearProducts, setSearchQuery} from "../../store/reducers/productsSlice";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -52,6 +56,38 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar({ quantity, price }: { quantity: number, price: number }) {
+  const { searchQuery } = useAppSelector((state) => state.products)
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    const handleSearch = () => {
+      dispatch(fetchProducts());
+    };
+
+    const debouncedSearch = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(handleSearch, 500);
+    };
+
+    debouncedSearch();
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [searchQuery, dispatch]);
+
+  useEffect(() => {
+    if(!searchQuery) {
+      dispatch(clearProducts());
+    }
+  }, [dispatch, searchQuery]);
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSearchQuery(e.target.value))
+  };
+
   return (
     <Box>
       <AppBar position="relative">
@@ -71,6 +107,8 @@ export default function SearchAppBar({ quantity, price }: { quantity: number, pr
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              value={searchQuery}
+              onChange={(e) => handleInputChange(e)}
             />
           </Search>
           <Box display="flex" flexDirection="row" mx={2}>

@@ -7,6 +7,9 @@ interface ProductsState {
     loading: boolean;
     error: string | null;
     page: number;
+    searchQuery: string;
+    hasMore: boolean;
+    categoryQuery: string;
 }
 
 const initialState: ProductsState = {
@@ -14,7 +17,12 @@ const initialState: ProductsState = {
     loading: false,
     error: null,
     page: 0,
+    searchQuery: '',
+    hasMore: false,
+    categoryQuery: '',
 };
+
+const PAGE_LIMIT: number = 10;
 
 const productsSlice = createSlice({
     name: 'products',
@@ -23,6 +31,19 @@ const productsSlice = createSlice({
         incrementPage: (state) => {
             state.page += 1;
         },
+        setSearchQuery: (state, action: PayloadAction<string>) => {
+            state.searchQuery = action.payload;
+            state.page = 0;
+        },
+        setCategoryQuery: (state, action: PayloadAction<string>) => {
+            state.categoryQuery = action.payload;
+            state.page = 0;
+            state.products = [];
+        },
+        clearProducts: (state) => {
+            state.products = [];
+            state.page = 0;
+        }
     },
     extraReducers: (builder: ActionReducerMapBuilder<ProductsState>) => {
         builder.addCase(fetchProducts.pending, (state: ProductsState) => {
@@ -31,10 +52,18 @@ const productsSlice = createSlice({
         })
         builder.addCase(fetchProducts.fulfilled, (state: ProductsState, action: PayloadAction<Product[]>) => {
             state.loading = false;
-            const uniqueProducts: Product[] = action.payload.filter(
-                (product: Product) => !state.products.some((p: Product) => p.id === product.id)
-            );
-            state.products.push(...uniqueProducts);
+            const {hasMore, products, total} = action.payload;
+            state.hasMore = hasMore;
+
+            if (total <= PAGE_LIMIT) {
+                // Update products when there are no more pages (search or initial load)
+                state.products = products;
+            } else {
+                const newData = products.filter((product: Product) => !state.products.find((p: Product) => p.id === product.id));
+                // Append new products when there are more pages
+                state.products = [...state.products, ...newData];
+
+            }
         })
         builder.addCase(fetchProducts.rejected, (state: ProductsState, action: PayloadAction<string | null>) => {
             state.loading = false;
@@ -43,5 +72,5 @@ const productsSlice = createSlice({
     },
 });
 
-export const { incrementPage } = productsSlice.actions;
+export const { incrementPage, setSearchQuery, clearProducts, setCategoryQuery } = productsSlice.actions;
 export default productsSlice.reducer;

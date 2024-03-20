@@ -22,21 +22,17 @@ import {Cart} from "../../types/cart";
 export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void }) => {
 
   const loaderRef = useRef<HTMLDivElement | null>(null);
-  const initialLoadRef = useRef(true);
   const dispatch = useAppDispatch();
-  const { products, loading, page } = useAppSelector((state) => state.products)
-
+  const { products, loading, page, hasMore, searchQuery, categoryQuery } = useAppSelector((state) => state.products)
 
   useEffect(() => {
-    dispatch(fetchProducts());
+      dispatch(fetchProducts());
   }, [dispatch, page]);
 
-  function handleObserver(entities: IntersectionObserverEntry[]) {
+  const handleObserver = (entities: IntersectionObserverEntry[]) => {
     const target = entities[0];
-    if (target.isIntersecting && !initialLoadRef.current) {
+    if (target.isIntersecting && hasMore) {
       dispatch(incrementPage());
-    } else {
-      initialLoadRef.current = false;
     }
   }
 
@@ -72,7 +68,7 @@ export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void 
         observer.unobserve(loaderRef.current);
       }
     };
-  }, []);
+  }, [hasMore]);
 
   function addToCart(productId: number, quantity: number) {
     //Todo: refactor add to cart code
@@ -113,52 +109,60 @@ export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void 
   return (
     <Box overflow="scroll" height="100%">
       <Grid container spacing={2} p={2}>
-        {products && products.length > 0 && products.map((product: Item, index: number) => (
-          <Grid item xs={4} key={`${product.id}-${index}`}>
-            {/* Do not remove this */}
-            <HeavyComponent/>
-            <Card key={product.id} style={{ width: '100%' }}>
-              <CardMedia
-                component="img"
-                height="150"
-                image={product.imageUrl}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h6" component="div">
-                  {product.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Typography variant="h6" component="div">
-                  ${product.price}
-                </Typography>
-                <Box flexGrow={1}/>
-                <Box position="relative" display="flex" flexDirection="row" alignItems="center">
-                  <Box position="absolute" left={0} right={0} top={0} bottom={0} textAlign="center">
-                    {product.loading && <CircularProgress size={20}/>}
-                  </Box>
-                  <IconButton disabled={loading} aria-label="delete" size="small"
-                              onClick={() => addToCart(product.id, -1)}>
-                    <RemoveIcon fontSize="small"/>
-                  </IconButton>
+          {products && products.length > 0 && products.map((product: Item, index: number) => (
+              <Grid item xs={4} key={`${product.id}-${index}`}>
+                  {/* Do not remove this */}
+                  <HeavyComponent/>
+                  <Card key={product.id} style={{width: '100%'}}>
+                      <CardMedia
+                          component="img"
+                          height="150"
+                          image={product.imageUrl}
+                      />
+                      <CardContent>
+                          <Typography gutterBottom variant="h6" component="div">
+                              {product.name}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                              Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                          </Typography>
+                      </CardContent>
+                      <CardActions>
+                          <Typography variant="h6" component="div">
+                              ${product.price}
+                          </Typography>
+                          <Box flexGrow={1}/>
+                          <Box position="relative" display="flex" flexDirection="row" alignItems="center">
+                              <Box position="absolute" left={0} right={0} top={0} bottom={0} textAlign="center">
+                                  {product.loading && <CircularProgress size={20}/>}
+                              </Box>
+                              <IconButton disabled={loading} aria-label="delete" size="small"
+                                          onClick={() => addToCart(product.id, -1)}>
+                                  <RemoveIcon fontSize="small"/>
+                              </IconButton>
 
-                  <Typography variant="body1" component="div" mx={1}>
-                    {product.itemInCart || 0}
-                  </Typography>
+                              <Typography variant="body1" component="div" mx={1}>
+                                  {product.itemInCart || 0}
+                              </Typography>
 
-                  <IconButton disabled={loading} aria-label="add" size="small"
-                              onClick={() => addToCart(product.id, 1)}>
-                    <AddIcon fontSize="small"/>
-                  </IconButton>
-                </Box>
+                              <IconButton disabled={loading} aria-label="add" size="small"
+                                          onClick={() => addToCart(product.id, 1)}>
+                                  <AddIcon fontSize="small"/>
+                              </IconButton>
+                          </Box>
 
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
+                      </CardActions>
+                  </Card>
+              </Grid>
+          ))
+          }
+          {!products.length && !loading && (searchQuery || categoryQuery) &&
+              <Typography variant="body1"
+                          component="div"
+                          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',
+                              width: 1, margin: '40px'}}>
+              No Products Found!
+          </Typography>}
       </Grid>
       <Box ref={loaderRef} sx={{ display: 'flex', justifyContent: 'center',
         visibility: loading ? 'visible' : 'hidden', height: '100px' }}>
