@@ -24,7 +24,7 @@ export const Categories = () => {
       <List>
         {categories.map((text: string) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton onClick={() => searchByCategory(text)}>
+            <ListItemButton onClick={() => searchByCategory(text)} selected={categoryQuery === text}>
               <ListItemText primary={text}/>
             </ListItemButton>
           </ListItem>
