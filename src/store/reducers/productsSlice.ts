@@ -67,7 +67,7 @@ const productsSlice = createSlice({
         })
         builder.addCase(fetchProducts.rejected, (state: ProductsState, action: PayloadAction<string | null>) => {
             state.loading = false;
-            state.error = action.payload || 'Something went wrong';
+            state.error = action.error.message || 'Something went wrong';
         })
     },
 });

@@ -1,26 +1,21 @@
-import { Cart, Products } from './components/Products/Products.tsx';
+import { Products } from './components/Products/Products.tsx';
 import { Box, CssBaseline } from '@mui/material';
 import SearchAppBar from './components/SearchAppBar/SearchAppBar.tsx';
 import { Categories } from './components/Categories/Categories.tsx';
-import { useState } from 'react';
+import {useAppSelector} from "./store";
 
 function App() {
 
-  const [cart, setCart] = useState<Cart>();
-
-
-  function onCartChange(cart: Cart) {
-    setCart(cart);
-  }
+  const {cart: {totalPrice, totalItems}} = useAppSelector((state) => state.cart);
 
   return (
     <Box height="100vh" display="flex" flexDirection="column">
       <CssBaseline/>
-      <SearchAppBar quantity={cart?.totalItems || 0} price={cart?.totalPrice || 0}/>
+      <SearchAppBar quantity={totalItems} price={totalPrice}/>
       <Box flex={1} display="flex" flexDirection="row">
         <Categories/>
         <Box flex={1}>
-          <Products onCartChange={onCartChange}/>
+          <Products />
         </Box>
       </Box>
 
