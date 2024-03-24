@@ -23,7 +23,7 @@ export const Products = () => {
 
   const handleObserver = (entities: IntersectionObserverEntry[]) => {
     const target = entities[0];
-    if (target.isIntersecting && hasMore) {
+    if (target.isIntersecting && hasMore && !loading) {
       dispatch(incrementPage());
     }
   }
@@ -60,7 +60,7 @@ export const Products = () => {
         observer.unobserve(loaderRef.current);
       }
     };
-  }, [hasMore]);
+  }, [hasMore, loading]);
 
   /*function addToCart(productId: number, quantity: number) {
     setProducts(products.map(product => {
