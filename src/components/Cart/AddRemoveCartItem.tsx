@@ -4,6 +4,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import {Item} from "../../types/products";
 import {useAppDispatch, useAppSelector} from "../../store";
+import {CartItem} from "../../types/cart";
 import {addToCart} from "../../store/actions/cartActions";
 
 type Props = {
@@ -24,7 +25,7 @@ export const AddRemoveCartItem: FC<Props> = ({ product }: Props) => {
     }
 
     const quantityInCart = () : number => {
-        const item = items.find((item) => item.product.id === product.id);
+        const item = items.find((item: CartItem) => item.product.id === product.id);
         return item ? item.quantity : 0;
     };
 
@@ -41,7 +42,7 @@ export const AddRemoveCartItem: FC<Props> = ({ product }: Props) => {
             <RemoveIcon fontSize="small"/>
         </IconButton>
 
-        <Typography variant="body1" component="div" mx={1}>
+        <Typography variant="body1" component="div" mx={1} data-testid='qty-in-cart'>
             {quantityInCart()}
         </Typography>
 

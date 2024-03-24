@@ -10,7 +10,4 @@ export interface Item {
     imageUrl: string;
     price: number;
     category: string;
-    itemInCart?: number;
-    loading?: boolean;
 }
-

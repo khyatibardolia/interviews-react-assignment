@@ -1,9 +1,9 @@
 import {ActionReducerMapBuilder, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Product} from '../../types/products';
+import {Item, Product} from '../../types/products';
 import {fetchProducts} from "../actions/productActions";
 
-interface ProductsState {
-    products: Product[];
+export interface ProductsState {
+    products: Item[];
     loading: boolean;
     error: string | null;
     page: number;
@@ -50,7 +50,7 @@ const productsSlice = createSlice({
             state.loading = true;
             state.error = null;
         })
-        builder.addCase(fetchProducts.fulfilled, (state: ProductsState, action: PayloadAction<Product[]>) => {
+        builder.addCase(fetchProducts.fulfilled, (state: ProductsState, action: PayloadAction<Product>) => {
             state.loading = false;
             const {hasMore, products, total} = action.payload;
             state.hasMore = hasMore;
@@ -59,16 +59,15 @@ const productsSlice = createSlice({
                 // Update products when there are no more pages (search or initial load)
                 state.products = products;
             } else {
-                const newData = products.filter((product: Product) => !state.products.find((p: Product) => p.id === product.id));
+                const newData = products.filter((product: Item) => !state.products.find((p: Item) => p.id === product.id));
                 // Append new products when there are more pages
                 state.products = [...state.products, ...newData];
-
             }
         })
-        builder.addCase(fetchProducts.rejected, (state: ProductsState, action: PayloadAction<string | null>) => {
+        builder.addCase(fetchProducts.rejected, (state, action) => {
             state.loading = false;
-            state.error = action.error.message || 'Something went wrong';
-        })
+            state.error = action.payload ?? 'Something went wrong';
+        });
     },
 });
 

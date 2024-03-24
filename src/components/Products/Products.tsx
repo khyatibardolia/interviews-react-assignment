@@ -102,7 +102,7 @@ export const Products = () => {
     <Box overflow="scroll" height="100%">
       <Grid container spacing={2} p={2}>
           {products && products.length > 0 && products.map((product: Item, index: number) => (
-              <ProductCard product={product} key={index}/>
+              <ProductCard data-testid="product-card" product={product} key={index}/>
           ))
           }
           {!products.length && !loading && (searchQuery || categoryQuery) &&
@@ -113,7 +113,7 @@ export const Products = () => {
               No Products Found!
           </Typography>}
       </Grid>
-      <Box ref={loaderRef} sx={{ display: 'flex', justifyContent: 'center',
+      <Box ref={loaderRef} data-testid="loader" sx={{ display: 'flex', justifyContent: 'center',
         visibility: loading ? 'visible' : 'hidden', height: loading ? '100px' : 0 }}>
         {loading && <CircularProgress size={75} />}
       </Box>

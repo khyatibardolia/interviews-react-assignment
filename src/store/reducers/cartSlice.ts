@@ -8,7 +8,7 @@ interface CartState {
     error: string | null;
 }
 
-const initialState: CartState = {
+export const initialState: CartState = {
     cart: {
         items: [],
         totalPrice: 0,
@@ -26,7 +26,7 @@ const cartSlice = createSlice({
     },
     extraReducers: (builder: ActionReducerMapBuilder<CartState>) => {
         builder
-            .addCase(addToCart.pending, (state: CartState, action: PayloadAction<undefined>) => {
+            .addCase(addToCart.pending, (state: CartState, action) => {
                 const productId = action.meta.arg.productId;
                 state.loading[productId] = true;
                 state.error = null;
@@ -36,10 +36,10 @@ const cartSlice = createSlice({
                 state.cart = cart;
                 state.loading[productId] = false;
             })
-            .addCase(addToCart.rejected, (state: CartState, action: PayloadAction<string | null>) => {
+            .addCase(addToCart.rejected, (state: CartState, action) => {
                 const productId = action.meta.arg.productId;
                 state.loading[productId] = false;
-                state.error = action.error.message ?? 'Failed to add product to cart';
+                state.error = action.payload ? action.payload.toString() : 'Failed to add product to cart';
             });
     },
 });

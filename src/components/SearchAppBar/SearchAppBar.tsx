@@ -108,7 +108,7 @@ export default function SearchAppBar({ quantity, price }: { quantity: number, pr
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
               value={searchQuery}
-              onChange={(e) => handleInputChange(e)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(e)}
             />
           </Search>
           <Box display="flex" flexDirection="row" mx={2}>
