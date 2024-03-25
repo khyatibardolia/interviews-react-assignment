@@ -20,7 +20,6 @@ const CardIconsContainer = styled(Box)(() => ({
     display: 'flex',
     justifyContent: 'center',
     gap: '10px',
-    marginTop: '10px',
 }));
 
 const CardIcon = styled('img')({

@@ -58,7 +58,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function SearchAppBar() {
   const { searchQuery } = useAppSelector((state) => state.products)
-  const {cart: {totalPrice, totalItems}} = useAppSelector((state) => state.cart);
+  const {cart: {totalPrice, totalItems}, loading} = useAppSelector((state) => state.cart);
+  const isAddToCartInProcess = Object.values(loading).some(value => value === true);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -102,7 +103,8 @@ export default function SearchAppBar() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            onClick={() => navigate('/')}
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' }, cursor: 'pointer' }}
           >
             FreshCart Market
           </Typography>
@@ -126,7 +128,7 @@ export default function SearchAppBar() {
             </Typography>
           </Box>
           <Badge badgeContent={totalItems} color="secondary"
-                 sx={{cursor: 'pointer'}}
+                 sx={{cursor: 'pointer', pointerEvents: isAddToCartInProcess ? 'none' : ''}}
                  onClick={() => totalItems > 0 && navigate('/checkout')}>
             <ShoppingCartIcon/>
           </Badge>

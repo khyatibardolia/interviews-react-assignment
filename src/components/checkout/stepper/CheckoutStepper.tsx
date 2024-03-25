@@ -6,9 +6,7 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import {CartRecap} from "./CartRecap";
 import {DeliveryAddress} from "./DeliveryAddress";
-import {RootState, useAppSelector} from "../../../store";
-import {useEffect, useState} from "react";
-import  { useNavigate } from 'react-router-dom'
+import {useState} from "react";
 import {Payment} from "./Payment";
 import {OrderConfirm} from "./OrderConfirm";
 
@@ -19,17 +17,7 @@ export default function CheckoutStepper() {
     const [showAddressFormErrorMessages, setShowAddressFormErrorMessages] = useState(false);
     const [isPaymentFormFilled, setIsPaymentFormFilled] = useState<boolean>(false);
     const [showPaymentFormErrorMessages, setShowPaymentFormErrorMessages] = useState(false);
-
-    const navigate = useNavigate();
-    const {cart: {items}} = useAppSelector((state: RootState) => state.cart);
-
-    useEffect(() => {
-        if(!items.length > 0) {
-            navigate(`/`)
-        }
-    }, [items]);
-
-    const [activeStep, setActiveStep] = React.useState(0);
+    const [activeStep, setActiveStep] = useState(0);
 
     const handleNext = () => {
         if(activeStep === 1) {

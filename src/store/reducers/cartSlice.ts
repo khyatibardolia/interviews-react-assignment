@@ -22,7 +22,15 @@ const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        dummyReducer() {}
+        resetCart(state: CartState) {
+            state.cart = {
+                items: [],
+                totalPrice: 0,
+                totalItems: 0,
+            }
+            state.loading = {};
+            state.error = null;
+        }
     },
     extraReducers: (builder: ActionReducerMapBuilder<CartState>) => {
         builder
@@ -44,4 +52,5 @@ const cartSlice = createSlice({
     },
 });
 
+export const { resetCart } = cartSlice.actions;
 export default cartSlice.reducer;
