@@ -11,6 +11,7 @@ import {ChangeEvent, useEffect} from "react";
 import {fetchProducts} from "../../store/actions/productActions";
 import {useAppDispatch, useAppSelector} from "../../store";
 import {clearProducts, setSearchQuery} from "../../store/reducers/productsSlice";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -55,9 +56,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAppBar({ quantity, price }: { quantity: number, price: number }) {
+export default function SearchAppBar() {
   const { searchQuery } = useAppSelector((state) => state.products)
+  const {cart: {totalPrice, totalItems}} = useAppSelector((state) => state.cart);
+
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isCheckoutPage = location.pathname === '/checkout';
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -100,7 +106,7 @@ export default function SearchAppBar({ quantity, price }: { quantity: number, pr
           >
             FreshCart Market
           </Typography>
-          <Search>
+          {!isCheckoutPage && <Search>
             <SearchIconWrapper>
               <SearchIcon/>
             </SearchIconWrapper>
@@ -110,16 +116,18 @@ export default function SearchAppBar({ quantity, price }: { quantity: number, pr
               value={searchQuery}
               onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(e)}
             />
-          </Search>
+          </Search>}
           <Box display="flex" flexDirection="row" mx={2}>
             <Typography variant="h6" noWrap component="div" mr={2}>
               Total:
             </Typography>
             <Typography variant="h6" noWrap component="div">
-              $ {(price || 0).toFixed(2)}
+              $ {(totalPrice).toFixed(2)}
             </Typography>
           </Box>
-          <Badge badgeContent={quantity || 0} color="secondary">
+          <Badge badgeContent={totalItems} color="secondary"
+                 sx={{cursor: 'pointer'}}
+                 onClick={() => totalItems > 0 && navigate('/checkout')}>
             <ShoppingCartIcon/>
           </Badge>
         </Toolbar>
