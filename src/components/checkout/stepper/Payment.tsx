@@ -7,7 +7,7 @@ import AmexCardIcon from '../../../assets/images/amex.png';
 import DiscoverCardIcon from '../../../assets/images/discover.png';
 import {paymentFormFields} from "../../../utils/formFields";
 
-const FormContainer = styled(Box)(({ theme }) => ({
+const FormContainer = styled(Box)(() => ({
     maxWidth: '100%',
     padding: '20px',
     border: '1px solid #ccc',
@@ -16,7 +16,7 @@ const FormContainer = styled(Box)(({ theme }) => ({
     backgroundColor: '#f9f9f9',
 }));
 
-const CardIconsContainer = styled(Box)(({ theme }) => ({
+const CardIconsContainer = styled(Box)(() => ({
     display: 'flex',
     justifyContent: 'center',
     gap: '10px',

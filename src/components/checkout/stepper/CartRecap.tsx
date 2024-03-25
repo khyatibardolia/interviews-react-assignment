@@ -1,16 +1,23 @@
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import React from 'react';
 import {RootState, useAppSelector} from "../../../store";
+import {styled} from "@mui/material/styles";
+
+const TableContainerLayout = styled(TableContainer)(() => ({
+    maxWidth: '100%',
+    padding: '4px 20px 20px 20px',
+    border: '1px solid #ccc',
+    borderRadius: '10px',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+}));
 
 export const CartRecap: React.FC = () => {
     const {cart: {items, totalPrice}} = useAppSelector((state: RootState) => state.cart);
 
     return (
-        <Box>
-            <Typography variant="h5" component="h2" gutterBottom>
-                Cart Items
-            </Typography>
-            <TableContainer component={Paper}>
+        <>
+            <TableContainerLayout component={Paper} sx={{backgroundColor: '#f9f9f9'}}>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -31,10 +38,10 @@ export const CartRecap: React.FC = () => {
                         ))}
                     </TableBody>
                 </Table>
-            </TableContainer>
+            </TableContainerLayout>
             <Box mt={2} sx={{display: 'flex', justifyContent: 'flex-end'}}>
                 <Typography variant="h5">Total Amount: ${totalPrice.toFixed(2)}</Typography>
             </Box>
-        </Box>
+        </>
     );
 };
