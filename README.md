@@ -1,107 +1,64 @@
-<!---
-Hi! We're happy you opened this file, not everyone does!
-To let us know you did, paste a capybara picture 
-in the How to Run section 😊 
-These will be extra points for you!
--->
+# FreshCart Grocery Store
 
-# React Interview Assignment
+Welcome to FreshCart Grocery Store, a modern e-commerce platform for all your grocery needs!
 
-## Introduction
+## Overview
+FreshCart Grocery Store is a web application designed to provide a seamless grocery shopping experience where users can search for products, add them to the cart, pay for the products, and organize delivery. The focus is on the customer experience without considering authentication or multiple users.
 
-This is an interview exercise for the Digital Products team of [xtream](https://www.linkedin.com/company/xtream-srl). In
-the following sections, you will find a number of challenges that we ask you to implement. You **DO NOT NECESSARILY need
-to complete 100% of them**: you can choose to complete as many as you want.
+## Deliverables
+- `Available Products`: Implemented pagination with infinite scroll for the list of products.
+- `Categories and Search`: Enabled searching for products and filtering by category.
+- `Add/Remove items from Cart`: Improved the performance of adding/removing products from the cart and enhance user experience.
+- `Checkout Phase`: Implemented a multistep checkout form including cart recap, address selection, delivery slot choice, payment method, and order confirmation.
 
-:watch: We give you **1 week** to submit a solution, so that you can do it at your own pace. We are aware that you might
-have other commitments, so we are not expecting you to work on this full-time. You will be evaluated based on the
-quality of your work, not on the time you spent on it.
+## Technologies Used
+- Frontend: `React.js, Material-UI`
+- State Management: `Redux toolkit`
+- Routing: `React Router`
+- Bundler: `Vite`
 
-### Deliverables
+## Getting Started
 
-Simply fork this repository and work on it as if you were working on a real-world project assigned to you. A week from
-now, we will assess your work.
+### Install dependencies
+### `npm install`
 
-### Evaluation
+### Available Scripts
 
-Your work will be assessed according to several criteria. As an example, these include:
+In the project directory, start the development server:
 
-* Code quality
-* Design Patterns
-* Project Structure
-* Work quality (commits, branches, workflow, tests, ...)
-* Provided Documentation
+### `npm run dev`
 
-#### A Friendly Reminder:
+Runs the app in the development mode.\
+Open [http://localhost:5173/](http://localhost:5173) to view it in the browser.
 
-We’re all about embracing the latest in AI, including GPT and similar technologies. They’re great tools that can provide
-a helping hand, whether it’s for generating ideas, debugging, or refining solutions. However, for this coding challenge,
-we’re really keen to see your personal touch. We're interested in your thought process, decision-making, and the
-solutions you come up with.
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-Remember, while using AI tools can be incredibly helpful, the essence of this task is to showcase your skills and
-creativity. Plus, be prepared to dive into the details of your code during the technical interview. Understanding the '
-why' and 'how' behind your decisions is crucial, as it reflects your ability to critically engage with the technology
-you're using.
+### `npm run test`
 
-So, feel free to lean on AI for support, but ensure your work remains distinctly yours. We're looking for a blend of
-technical savvy and individual flair. Dive in, get creative, and let’s see what you can create. Excited to see your
-work. Happy coding! 🚀💼👩‍💻
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### Let's get started
+### Commit Convention
+- To ensure readability and consistency in `commit messages`, the conventional commit format is used for writing commit messages that are `clear, concise, and informative`.
+- Each commit message should adhere to the following pattern:
 
-We do understand that some topics might be unfamiliar for you. Therefore, pick any number of challenges and try to
-complete them.
+```
+<type>(<scope>): <description>
 
-:heavy_exclamation_mark:**Important**: you might feel like the tasks are somehow too broad, or the requirements are not
-fully elicited. **This is done on purpose**: we want to give you the freedom to make your own choices and to put as
-fewer constraints as possible on your work. We appreciate if you could record any decisions, assumptions and doubts,
-together with any questions that you will ask in a real-world scenario.
+[optional body]
 
----   
+[optional footer]
 
-### Problem Domain
+```
 
-Your task is to build the web application for **FreshCart Market**, a simple grocery e-commerce website, where you can
-search for products, add to cart, pay for the products and organize the delivery. The client does not want SEO or
-other similar features, so it is ok to have a single page application.
+Where:
 
-For the sake of this assignment, let's focus on creating the **customer** part instead of the **admin** part (which
-handles all the products and their available quantities)
+- `<type>` specifies the type of the commit (e.g., feat, fix, chore, docs, style).
+- `<scope>` is optional and indicates the scope of the commit (e.g., component name, module).
+- `<description>` is a short, concise description of the change.
+- `[optional body]` provides additional context or details about the change.
+- `[optional footer]` includes any relevant issue or breaking change references.
 
-Do not consider authentication, sign in or multiple users: for simplicity, imagine the user that is interacting with the
-system is always the same.
-
-#### Challenge #1: Available Products
-
-A junior developer started the project and created the list of the products available in the store. The products are
-paginated server side but the junior wasn't able to implement the pagination on the frontend. Comment and refactor the
-code so that it is more maintainable and reusable while implementing the pagination with infinite scroll.
-
-#### Challenge #2: Categories and Search
-
-There is also a search bar and a list of categories. The user can search for products and filter them by category. The
-search will happen when the user types in the search bar and the results will be updated.
-
-#### Challenge #3: Add to cart
-
-On each product there is a button to add it to the cart. The cart is a simple list of products with their quantity and
-is handled on the backend. The user can add or remove products from the cart. And the number of products in the cart is
-updated in the header and also in the product list. The list is a bit slow to update and the junior developer wasn't
-able to fix it. If you end up succeeding on solving this issue, it would be great to provide some proof of the
-performance improvements. The add to cart functionality has also a bad user experience because of the slow backend, it
-would be great if we can do something on it on frontend Side to make it smother.
-
-#### Challenge #4: Checkout phase
-
-The last part to implement is the checkout phase, where the user can pay for the products and organize the delivery. The
-checkout is a multistep form with these steps:
-
-* recap of the cart and final price
-* the address where the products should be delivered and the delivery slot selection
-* the payment method
-* the confirmation of the order
-
-## Documentation
-
-...
+This convention helps in tracking and understanding the `purpose` of each commit.
+See the section about [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#specification) for more information.
