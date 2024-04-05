@@ -1,12 +1,14 @@
 import { Route, Routes } from 'react-router-dom';
-import { Products } from "../components/Products/Products";
-import CheckoutStepper from "../components/checkout/stepper/CheckoutStepper";
+import React from "react";
+
+const ProductsComponent = React.lazy(() => import('../components/Products/Products'));
+const CheckoutStepperComponent = React.lazy(() => import('../components/checkout/stepper/CheckoutStepper'));
 
 export const AppRoutes = () => {
     return (
         <Routes>
-            <Route path="/" element={<Products />} />
-            <Route path="/checkout" element={<CheckoutStepper />} />
+            <Route path="/" element={<ProductsComponent />} />
+            <Route path="/checkout" element={<CheckoutStepperComponent />} />
         </Routes>
     );
 };

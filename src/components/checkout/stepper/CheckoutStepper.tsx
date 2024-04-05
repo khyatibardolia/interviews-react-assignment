@@ -12,7 +12,7 @@ import {OrderConfirm} from "./OrderConfirm";
 
 const steps = ['Cart', 'Delivery Address', 'Payment'];
 
-export default function CheckoutStepper() {
+const CheckoutStepper = () => {
     const [isDeliveryFormFilled, setIsDeliveryFormFilled] = useState<boolean>(false);
     const [showAddressFormErrorMessages, setShowAddressFormErrorMessages] = useState(false);
     const [isPaymentFormFilled, setIsPaymentFormFilled] = useState<boolean>(false);
@@ -105,3 +105,5 @@ export default function CheckoutStepper() {
         </Box>
     );
 }
+
+export default CheckoutStepper;

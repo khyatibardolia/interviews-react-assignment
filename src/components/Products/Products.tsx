@@ -11,7 +11,7 @@ import { incrementPage } from '../../store/reducers/productsSlice';
 import {Item} from "../../types/products";
 import {ProductCard} from "./ProductCard";
 
-export const Products = () => {
+const Products = () => {
 
   const loaderRef = useRef<HTMLDivElement | null>(null);
   const dispatch = useAppDispatch();
@@ -120,3 +120,5 @@ export const Products = () => {
     </Box>
   );
 };
+
+export default Products;

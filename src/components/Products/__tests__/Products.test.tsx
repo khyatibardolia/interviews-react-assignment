@@ -1,4 +1,4 @@
-import {Products} from '../Products';
+import Products from '../Products';
 import {waitFor, screen} from "@testing-library/react";
 import {initialState} from "../../../mocks/testUtils";
 import {renderComponentWithProvider} from "../../../utils/renderComponentWithProvider";
