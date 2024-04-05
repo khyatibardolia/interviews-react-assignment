@@ -6,6 +6,13 @@ export interface DeliveryFormField {
     options?: string[]
 }
 
+export interface PaymentFormField {
+    label: string,
+    name: string,
+    errorText: string,
+    validation: (value: string) => boolean;
+}
+
 export const deliveryFormFields: DeliveryFormField[] = [
     {
         type: 'text',
@@ -52,29 +59,29 @@ export const deliveryFormFields: DeliveryFormField[] = [
     },
 ];
 
-export const paymentFormFields = [
+export const paymentFormFields: PaymentFormField[] = [
     {
         label: 'Card Number',
         name: 'cardNumber',
         errorText: 'Please enter a valid 16-digit card number',
-        validation: (value) => /^\d{16}$/.test(value) && /^\d+$/.test(value),
+        validation: (value: string) => /^\d{16}$/.test(value) && /^\d+$/.test(value),
     },
     {
         label: 'Expiration Date (MM/YY)',
         name: 'expirationDate',
         errorText: 'Please enter a valid expiration date (MM/YY)',
-        validation: (value) => /^(0[1-9]|1[0-2])\/\d{2}$/.test(value),
+        validation: (value: string) => /^(0[1-9]|1[0-2])\/\d{2}$/.test(value),
     },
     {
         label: 'CVV',
         name: 'cvv',
         errorText: 'Please enter a valid 3-digit CVV',
-        validation: (value) => /^\d{3}$/.test(value) && /^\d+$/.test(value),
+        validation: (value: string) => /^\d{3}$/.test(value) && /^\d+$/.test(value),
     },
     {
         label: 'Name on Card',
         name: 'nameOnCard',
         errorText: 'Please enter the name on the card',
-        validation: (value) => !!value,
+        validation: (value: string) => !!value,
     },
 ];

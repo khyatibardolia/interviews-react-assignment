@@ -27,8 +27,11 @@ export const DeliveryAddress: FC<Props> = ({ onFormSubmit, showErrorMessage }: P
     };
 
     useEffect(() => {
-        const isEmailValid = new RegExp(deliveryFormFields.find(field => field.id === 'email').validation.pattern).test(formValues.email);
-        const isPostalCodeValid = new RegExp(deliveryFormFields.find(field => field.id === 'postalCode').validation.pattern).test(formValues.postalCode);
+        const field = deliveryFormFields.find((field: DeliveryFormField) => field.id === 'email');
+        const isEmailValid = field ? new RegExp(field.validation.pattern as RegExp).test(formValues.email) : false;
+
+        const postalCodeField = deliveryFormFields.find((field: DeliveryFormField) => field.id === 'postalCode');
+        const isPostalCodeValid = postalCodeField ? new RegExp(postalCodeField.validation.pattern as RegExp).test(formValues.postalCode) : false;
 
         const allFieldsFilled = Object.values(formValues).every((value) => value.trim() !== '')
             && isEmailValid && isPostalCodeValid;
@@ -50,10 +53,10 @@ export const DeliveryAddress: FC<Props> = ({ onFormSubmit, showErrorMessage }: P
         }
     };
 
-    const validateForm = (field) => {
+    const validateForm = (field: DeliveryFormField) => {
         return ((field.validation.required && formValues[field.id]?.trim() === '') ||
-            (field.id === 'email' && !new RegExp(field.validation.pattern).test(formValues[field.id])) ||
-            (field.id === 'postalCode' && !new RegExp(field.validation.pattern).test(formValues[field.id]))) && showErrorMessage
+            (field.id === 'email' && !new RegExp(field.validation.pattern as RegExp).test(formValues[field.id])) ||
+            (field.id === 'postalCode' && !new RegExp(field.validation.pattern as RegExp).test(formValues[field.id]))) && showErrorMessage
     }
 
     return (
@@ -77,7 +80,7 @@ export const DeliveryAddress: FC<Props> = ({ onFormSubmit, showErrorMessage }: P
                     SelectProps={(field.type === 'select' ? { native: true } : undefined) as SelectProps}
                 >
                     {field.type === 'select' &&
-                        field.options.map((option) => (
+                         field.options?.map((option: string) => (
                             <option key={option} value={option}>
                                 {option}
                             </option>

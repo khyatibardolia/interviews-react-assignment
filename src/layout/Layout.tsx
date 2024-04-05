@@ -1,10 +1,14 @@
 import { Box, CssBaseline } from "@mui/material";
 import SearchAppBar from "../components/SearchAppBar/SearchAppBar";
 import { Categories } from "../components/Categories/Categories";
-import {AppRoutes} from "../routes";
 import {useLocation} from "react-router-dom";
+import {FC, ReactElement} from "react";
 
-const Layout = () => {
+type Props = {
+    children: ReactElement
+}
+
+export const Layout: FC<Props> = ({ children }: Props) => {
     const location = useLocation();
     const isCheckoutPage = location.pathname === '/checkout';
 
@@ -15,11 +19,9 @@ const Layout = () => {
             <Box flex={1} display="flex" flexDirection="row">
                 {!isCheckoutPage && <Categories />}
                 <Box flex={1}>
-                    <AppRoutes />
+                    {children}
                 </Box>
             </Box>
         </Box>
     );
 };
-
-export default Layout;

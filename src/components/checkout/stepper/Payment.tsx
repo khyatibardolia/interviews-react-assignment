@@ -1,11 +1,11 @@
-import React, {FC, useEffect, useState} from 'react';
+import {ChangeEvent, FC, useEffect, useState} from 'react';
 import { Box, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import VisaCardIcon from '../../../assets/images/visa.png';
 import MasterCardIcon from '../../../assets/images/mastercard.png';
 import AmexCardIcon from '../../../assets/images/amex.png';
 import DiscoverCardIcon from '../../../assets/images/discover.png';
-import {paymentFormFields} from "../../../utils/formFields";
+import {PaymentFormField, paymentFormFields} from "../../../utils/formFields";
 
 const FormContainer = styled(Box)(() => ({
     maxWidth: '100%',
@@ -32,30 +32,34 @@ type Props = {
     showErrorMessage: boolean;
 }
 
+type FormData = {
+    [key: string]: string;
+}
+
 export const Payment: FC<Props> = ({ onFormSubmit, showErrorMessage }: Props) => {
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<FormData>({
         cardNumber: '',
         expirationDate: '',
         cvv: '',
         nameOnCard: '',
     });
 
-    const [errors, setErrors] = useState({
+    const [errors, setErrors] = useState<FormData>({
         cardNumber: '',
         expirationDate: '',
         cvv: '',
         nameOnCard: '',
     });
 
-    const handleChange = (e) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
     useEffect(() => {
-        const newErrors = {};
+        const newErrors = {} as FormData;
 
-        paymentFormFields.forEach((field) => {
+        paymentFormFields.forEach((field: PaymentFormField) => {
             if (!formData[field.name] || !field.validation(formData[field.name])) {
                 newErrors[field.name] = field.errorText;
             } else {

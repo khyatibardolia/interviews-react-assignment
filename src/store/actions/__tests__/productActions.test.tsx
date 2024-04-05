@@ -1,31 +1,32 @@
-import { fetchProducts } from '../productActions'; // Adjust the import path based on your project structure
-import productsReducer from '../../reducers/productsSlice'; // Adjust the import path based on your project structure
+import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
+import productsReducer, { ProductsState } from '../../reducers/productsSlice';
+import { mockedProducts } from '../../../mocks/testUtils';
+import * as productActionsModule from '../productActions';
+import {fetchProducts} from "../productActions";
 
 // Mock async fetchProducts API call
 jest.mock('../productActions', () => ({
+    ...jest.requireActual('../productActions'),
     fetchProducts: jest.fn(),
 }));
 
 describe('Product Actions and Reducer', () => {
-    let state = productsReducer.state;
+    let store: EnhancedStore<{ products: ProductsState }>;
 
     beforeEach(() => {
-        state = productsReducer.state;
+        store = configureStore({ reducer: { products: productsReducer } });
     });
 
     it('should fetch products successfully', async () => {
-        const mockProducts = [
-            { id: 1, name: 'Product 1' },
-            { id: 2, name: 'Product 2' },
-        ];
-        const mockPayload = { products: mockProducts, hasMore: true, total: 20 };
+        const mockPayload = { products: mockedProducts, hasMore: true, total: 2 };
 
-        fetchProducts.mockReturnValueOnce(mockPayload);
+        (productActionsModule.fetchProducts as any as jest.Mock).mockResolvedValueOnce(mockPayload);
 
-        const action = await productsReducer.actions.fetchProducts();
-        const newState = productsReducer.reducer(state, action);
+        await fetchProducts();
 
-        expect(newState.products).toEqual(mockProducts);
+        const newState = store.getState().products;
+
+        expect(newState.products).toEqual(mockedProducts);
         expect(newState.hasMore).toBe(true);
         expect(newState.loading).toBe(false);
         expect(newState.error).toBeNull();

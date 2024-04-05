@@ -10,19 +10,33 @@ jest.mock('../../../store/actions/productActions', () => ({
     fetchProducts: jest.fn(),
     clearProducts: jest.fn(),
 }));
+
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useNavigate: jest.fn(),
+    useLocation: jest.fn(() => ({
+        pathname: '/mock-path',
+    })),
+}));
+
 jest.mock('../../../store', () => ({
     useAppDispatch: jest.fn(() => jest.fn()),
     useAppSelector: jest.fn().mockReturnValue({
         products: {
             searchQuery: 'mockedSearchQuery'
-        }
-    })
+        },
+        cart: {
+            items: [],
+            totalPrice: 0,
+            totalItems: 0,
+        },
+    }),
 }));
 
 describe('SearchAppBar Component Tests', () => {
 
     it('renders SearchAppBar correctly', () => {
-        renderComponentWithProvider(<SearchAppBar quantity={5} price={100} />, {
+        renderComponentWithProvider(<SearchAppBar />, {
             products: {
                 ...initialState.products,
                 searchQuery: '',
@@ -32,12 +46,11 @@ describe('SearchAppBar Component Tests', () => {
             }})
         expect(screen.getByText('FreshCart Market')).toBeInTheDocument();
         expect(screen.getByPlaceholderText('Search…')).toBeInTheDocument();
-        expect(screen.getByText('$ 100.00')).toBeInTheDocument();
-        expect(screen.getByText('5')).toBeInTheDocument();
+        expect(screen.getByText('$ 0.00')).toBeInTheDocument();
     });
 
     it.skip('handles search input change', () => {
-        renderComponentWithProvider(<SearchAppBar quantity={0} price={0} />)
+        renderComponentWithProvider(<SearchAppBar />)
 
         // Simulate typing into the search input
         const searchInput = screen.getByPlaceholderText('Search…');
@@ -48,17 +61,17 @@ describe('SearchAppBar Component Tests', () => {
     });
 
     it.skip('does not display badge when quantity is 0', () => {
-        renderComponentWithProvider(<SearchAppBar quantity={0} price={0} />)
+        renderComponentWithProvider(<SearchAppBar />)
         expect(screen.queryByText('0')).not.toBeInTheDocument();
     });
 
     it.skip('displays correct formatting for price', () => {
-        renderComponentWithProvider(<SearchAppBar quantity={0} price={0} />)
+        renderComponentWithProvider(<SearchAppBar />)
         expect(screen.getByText('$ 9.99')).toBeInTheDocument();
     });
 
     it.skip('fetches products on search query change', async () => {
-        renderComponentWithProvider(<SearchAppBar quantity={0} price={0} />)
+        renderComponentWithProvider(<SearchAppBar />)
         const searchInput = screen.getByPlaceholderText('Search…');
         fireEvent.change(searchInput, { target: { value: 'milk' } });
 

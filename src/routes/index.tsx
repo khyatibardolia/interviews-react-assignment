@@ -5,8 +5,8 @@ import CheckoutStepper from "../components/checkout/stepper/CheckoutStepper";
 export const AppRoutes = () => {
     return (
         <Routes>
-            <Route exact path="/" element={<Products />} />
-            <Route exact path="/checkout" element={<CheckoutStepper />} />
+            <Route path="/" element={<Products />} />
+            <Route path="/checkout" element={<CheckoutStepper />} />
         </Routes>
     );
 };

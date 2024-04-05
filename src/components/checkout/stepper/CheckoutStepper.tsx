@@ -41,15 +41,15 @@ export default function CheckoutStepper() {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const handleDeliveryFormSubmit = (isFormFilled: boolean) => {
+    const handleDeliveryFormSubmit = (isFormFilled: boolean = false) => {
         setIsDeliveryFormFilled(isFormFilled);
     }
 
-    const handlePaymentFormSubmit = (isFormFilled: boolean) => {
+    const handlePaymentFormSubmit = (isFormFilled: boolean = false) => {
         setIsPaymentFormFilled(isFormFilled);
     }
 
-    const renderStepContent = (activeStep) => {
+    const renderStepContent = (activeStep: number) => {
         switch(activeStep) {
             case 0:
                 return <CartRecap/>;

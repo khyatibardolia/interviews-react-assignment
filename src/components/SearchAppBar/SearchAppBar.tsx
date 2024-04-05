@@ -59,7 +59,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function SearchAppBar() {
   const { searchQuery } = useAppSelector((state) => state.products)
   const {cart: {totalPrice, totalItems}, loading} = useAppSelector((state) => state.cart);
-  const isAddToCartInProcess = Object.values(loading).some(value => value === true);
+  const isAddToCartInProcess = loading ? Object.values(loading).some(value => value === true) : false;
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

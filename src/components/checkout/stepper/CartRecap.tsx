@@ -18,14 +18,14 @@ export const CartRecap: React.FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(!items.length > 0) {
+        if(!items.length) {
             navigate(`/`)
         }
     }, [items]);
 
     return (
         <>
-            <TableContainerLayout component={Paper} sx={{backgroundColor: '#f9f9f9'}}>
+            <TableContainerLayout as={Paper} sx={{backgroundColor: '#f9f9f9'}}>
                 <Table>
                     <TableHead>
                         <TableRow>
