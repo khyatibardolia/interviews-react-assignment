@@ -2,8 +2,8 @@ import { Route, Routes } from 'react-router-dom';
 import React, { Suspense } from "react";
 import {Box, CircularProgress} from "@mui/material";
 
-const ProductsComponent = React.lazy(() => import('../components/Products/Products'));
-const CheckoutStepperComponent = React.lazy(() => import('../components/checkout/stepper/CheckoutStepper'));
+const ProductsComponent = React.lazy(() => import('../pages/Products/Products'));
+const CheckoutStepperComponent = React.lazy(() => import('../pages/Checkout/CheckoutStepper'));
 
 export const AppRoutes = () => {
     return (

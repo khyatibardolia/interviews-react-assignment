@@ -1,6 +1,6 @@
 import {SelectProps, TextField} from "@mui/material";
 import { ChangeEvent, FC, useEffect, useState } from "react";
-import {DeliveryFormField, deliveryFormFields} from "../../../utils/formFields";
+import {DeliveryFormField, deliveryFormFields} from "../../utils/formFields";
 
 type Props = {
     onFormSubmit: (allFieldsFilled: boolean) => void;

@@ -4,11 +4,11 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
-import {CartRecap} from "./CartRecap";
-import {DeliveryAddress} from "./DeliveryAddress";
+import {CartRecap} from "../../components/Checkout/CartRecap";
+import {DeliveryAddress} from "../../components/Checkout/DeliveryAddress";
 import {useState} from "react";
-import {Payment} from "./Payment";
-import {OrderConfirm} from "./OrderConfirm";
+import {Payment} from "../../components/Checkout/Payment";
+import {OrderConfirm} from "../../components/Checkout/OrderConfirm";
 
 const steps = ['Cart', 'Delivery Address', 'Payment'];
 
@@ -16,8 +16,8 @@ const CheckoutStepper = () => {
     const [isDeliveryFormFilled, setIsDeliveryFormFilled] = useState<boolean>(false);
     const [showAddressFormErrorMessages, setShowAddressFormErrorMessages] = useState(false);
     const [isPaymentFormFilled, setIsPaymentFormFilled] = useState<boolean>(false);
-    const [showPaymentFormErrorMessages, setShowPaymentFormErrorMessages] = useState(false);
-    const [activeStep, setActiveStep] = useState(0);
+    const [showPaymentFormErrorMessages, setShowPaymentFormErrorMessages] = useState<boolean>(false);
+    const [activeStep, setActiveStep] = useState<number>(0);
 
     const handleNext = () => {
         if(activeStep === 1) {
@@ -85,7 +85,7 @@ const CheckoutStepper = () => {
                         {renderStepContent(activeStep)}
                     </Box>
 
-                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, px: 2 }}>
                         <Button
                             color="inherit"
                             disabled={activeStep === 0}

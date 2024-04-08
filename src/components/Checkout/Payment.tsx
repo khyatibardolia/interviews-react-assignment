@@ -1,11 +1,11 @@
 import {ChangeEvent, FC, useEffect, useState} from 'react';
 import { Box, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import VisaCardIcon from '../../../assets/images/visa.png';
-import MasterCardIcon from '../../../assets/images/mastercard.png';
-import AmexCardIcon from '../../../assets/images/amex.png';
-import DiscoverCardIcon from '../../../assets/images/discover.png';
-import {PaymentFormField, paymentFormFields} from "../../../utils/formFields";
+import VisaCardIcon from '../../assets/images/visa.png';
+import MasterCardIcon from '../../assets/images/mastercard.png';
+import AmexCardIcon from '../../assets/images/amex.png';
+import DiscoverCardIcon from '../../assets/images/discover.png';
+import {PaymentFormField, paymentFormFields} from "../../utils/formFields";
 
 const FormContainer = styled(Box)(() => ({
     maxWidth: '100%',
@@ -80,10 +80,10 @@ export const Payment: FC<Props> = ({ onFormSubmit, showErrorMessage }: Props) =>
     return (
         <FormContainer>
             <CardIconsContainer>
-                <CardIcon src={VisaCardIcon} alt="Visa" />
-                <CardIcon src={MasterCardIcon} alt="MasterCard" />
-                <CardIcon src={AmexCardIcon} alt="MasterCard" />
-                <CardIcon src={DiscoverCardIcon} alt="MasterCard" />
+                <CardIcon src={VisaCardIcon} alt="Visa" loading="lazy" />
+                <CardIcon src={MasterCardIcon} alt="MasterCard" loading="lazy" />
+                <CardIcon src={AmexCardIcon} alt="MasterCard" loading="lazy" />
+                <CardIcon src={DiscoverCardIcon} alt="MasterCard" loading="lazy" />
             </CardIconsContainer>
             <form>
                 {paymentFormFields.map((field) => (

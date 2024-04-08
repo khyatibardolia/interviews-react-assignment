@@ -9,7 +9,7 @@ import {useAppDispatch, useAppSelector} from "../../store";
 import { fetchProducts } from '../../store/actions/productActions';
 import { incrementPage } from '../../store/reducers/productsSlice';
 import {Item} from "../../types/products";
-import {ProductCard} from "./ProductCard";
+import {ProductCard} from "../../components/ProductCard/ProductCard";
 
 const Products = () => {
 
@@ -100,7 +100,7 @@ const Products = () => {
 
   return (
     <Box overflow="scroll" height="100%">
-      <Grid container spacing={2} p={2}>
+      <Grid container p={2} spacing={2} columns={{ xs: 4, sm: 8, md: 12 }}>
           {products && products.length > 0 && products.map((product: Item, index: number) => (
               <ProductCard data-testid="product-card" product={product} key={index}/>
           ))

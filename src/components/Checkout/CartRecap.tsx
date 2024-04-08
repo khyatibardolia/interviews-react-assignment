@@ -1,6 +1,6 @@
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import React, {useEffect} from 'react';
-import {RootState, useAppSelector} from "../../../store";
+import {RootState, useAppSelector} from "../../store";
 import {styled} from "@mui/material/styles";
 import {useNavigate} from "react-router-dom";
 
