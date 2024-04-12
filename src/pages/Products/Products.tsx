@@ -99,7 +99,7 @@ const Products = () => {
 */
 
   return (
-    <Box overflow="scroll" height="100%">
+    <Box overflow="scroll" height="100%" sx={{marginLeft: '180px'}}>
       <Grid container p={2} spacing={2} columns={{ xs: 4, sm: 8, md: 12 }}>
           {products && products.length > 0 && products.map((product: Item, index: number) => (
               <ProductCard data-testid="product-card" product={product} key={index}/>

@@ -16,7 +16,7 @@ export const Layout: FC<Props> = ({ children }: Props) => {
         <Box height="100vh" display="flex" flexDirection="column">
             <CssBaseline />
             <SearchAppBar />
-            <Box flex={1} display="flex" flexDirection="row">
+            <Box flex={1} display="flex" flexDirection="row" sx={{marginTop: '64px'}}>
                 {!isCheckoutPage && <Categories />}
                 <Box flex={1}>
                     {children}

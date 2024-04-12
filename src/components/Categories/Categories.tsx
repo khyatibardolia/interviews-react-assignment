@@ -14,7 +14,7 @@ export const Categories = () => {
     }
 
     return (
-    <Box minWidth={drawerWidth} sx={{ borderRight: '1px solid grey' }}>
+    <Box minWidth={drawerWidth} sx={{ borderRight: '1px solid grey', position: 'fixed', height: '100%' }}>
       <List>
         {categories.map((text: string) => (
           <ListItem key={text} disablePadding>

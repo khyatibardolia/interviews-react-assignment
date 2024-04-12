@@ -97,7 +97,7 @@ export default function SearchAppBar() {
 
   return (
     <Box>
-      <AppBar position="relative">
+      <AppBar position="fixed">
         <Toolbar>
           <Typography
             variant="h6"
