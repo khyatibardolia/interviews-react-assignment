@@ -20,22 +20,25 @@ const CheckoutStepper = () => {
     const [activeStep, setActiveStep] = useState<number>(0);
 
     const handleNext = () => {
-        if(activeStep === 1) {
-            handleDeliveryFormSubmit();
-            setShowAddressFormErrorMessages(!isDeliveryFormFilled);
+        switch (activeStep) {
+            case 1:
+                handleDeliveryFormSubmit();
+                setShowAddressFormErrorMessages(!isDeliveryFormFilled);
+                break;
+            case 2:
+                handlePaymentFormSubmit();
+                setShowPaymentFormErrorMessages(!isPaymentFormFilled);
+                break;
+            default:
+                break;
         }
-        if(activeStep === 2) {
-            handlePaymentFormSubmit();
-            setShowPaymentFormErrorMessages(!isPaymentFormFilled);
-        }
-        if (activeStep === 1 && isDeliveryFormFilled) {
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        } else if (activeStep === 2 && isPaymentFormFilled) {
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        } else if (activeStep !== 1 && activeStep !== 2) {
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
+        const canProceed = (activeStep === 1 && isDeliveryFormFilled) || (activeStep === 2 && isPaymentFormFilled);
+        if (canProceed || activeStep === 0) {
+            setActiveStep((prevActiveStep: number) => prevActiveStep + 1);
         }
     };
+
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -49,7 +52,7 @@ const CheckoutStepper = () => {
         setIsPaymentFormFilled(isFormFilled);
     }
 
-    const renderStepContent = (activeStep: number) => {
+    const renderStepContent = () => {
         switch(activeStep) {
             case 0:
                 return <CartRecap/>;
@@ -82,7 +85,7 @@ const CheckoutStepper = () => {
             ) : (
                 <React.Fragment>
                     <Box sx={{padding: '40px 20px'}}>
-                        {renderStepContent(activeStep)}
+                        {renderStepContent()}
                     </Box>
 
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, px: 2 }}>

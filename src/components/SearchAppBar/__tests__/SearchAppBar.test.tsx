@@ -43,7 +43,11 @@ describe('SearchAppBar Component Tests', () => {
             },
             cart: {
              ...initialState.cart
-            }})
+            },
+            checkout: {
+                ...initialState.checkout
+            }
+        })
         expect(screen.getByText('FreshCart Market')).toBeInTheDocument();
         expect(screen.getByPlaceholderText('Search…')).toBeInTheDocument();
         expect(screen.getByText('$ 0.00')).toBeInTheDocument();

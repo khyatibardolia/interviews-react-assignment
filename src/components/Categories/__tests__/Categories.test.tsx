@@ -16,7 +16,6 @@ jest.mock('../../../store', () => ({
 }));
 
 jest.mock('../../../store/actions/productActions', () => ({
-    fetchProducts: jest.fn(),
     setCategoryQuery: jest.fn()
 }));
 
@@ -43,6 +42,9 @@ describe('Categories Component Tests', () => {
             },
             cart: {
                 ...initialState.cart
+            },
+            checkout: {
+                ...initialState.checkout
             }
         })
 

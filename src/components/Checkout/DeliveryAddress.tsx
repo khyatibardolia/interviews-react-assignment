@@ -1,6 +1,9 @@
 import {SelectProps, TextField} from "@mui/material";
 import { ChangeEvent, FC, useEffect, useState } from "react";
 import {DeliveryFormField, deliveryFormFields} from "../../utils/formFields";
+import {useAppDispatch, useAppSelector} from "../../store";
+import {setDeliveryFormData} from "../../store/reducers/checkoutSlice";
+import {DeliveryFormData} from "../../types/checkout";
 
 type Props = {
     onFormSubmit: (allFieldsFilled: boolean) => void;
@@ -8,19 +11,13 @@ type Props = {
 }
 
 export const DeliveryAddress: FC<Props> = ({ onFormSubmit, showErrorMessage }: Props) => {
-    const [formValues, setFormValues] = useState<{ [key: string]: string }>({
-        fullName: '',
-        email: '',
-        address: '',
-        city: '',
-        postalCode: '',
-        country: '',
-        deliverySlot: 'Morning (9 AM - 12 PM)'
-    });
+    const dispatch = useAppDispatch();
+    const {deliveryFormData} = useAppSelector((state) => state.checkout);
+    const [formValues, setFormValues] = useState<DeliveryFormData>(deliveryFormData);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
-        setFormValues((prevValues: { [key: string]: string }) => ({
+        setFormValues((prevValues: DeliveryFormData) => ({
             ...prevValues,
             [id]: value,
         }));
@@ -37,6 +34,7 @@ export const DeliveryAddress: FC<Props> = ({ onFormSubmit, showErrorMessage }: P
             && isEmailValid && isPostalCodeValid;
         if (allFieldsFilled) {
             onFormSubmit(true);
+            dispatch(setDeliveryFormData(formValues));
         } else {
             onFormSubmit(false);
         }
@@ -76,6 +74,9 @@ export const DeliveryAddress: FC<Props> = ({ onFormSubmit, showErrorMessage }: P
                     margin="normal"
                     error={validateForm(field)}
                     helperText={validateForm(field) && getErrorMessage(field.id)}
+                    FormHelperTextProps={{
+                        style: { marginLeft: 0 }
+                    }}
                     select={field.type === 'select'}
                     SelectProps={(field.type === 'select' ? { native: true } : undefined) as SelectProps}
                 >

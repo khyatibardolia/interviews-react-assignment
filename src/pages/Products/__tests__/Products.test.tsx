@@ -62,6 +62,9 @@ describe('Products', () => {
             },
             cart: {
                 ...initialState.cart
+            },
+            checkout: {
+                ...initialState.checkout
             }
         };
         renderComponentWithProvider(<Products />, state)

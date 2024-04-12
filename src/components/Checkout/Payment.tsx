@@ -6,6 +6,9 @@ import MasterCardIcon from '../../assets/images/mastercard.png';
 import AmexCardIcon from '../../assets/images/amex.png';
 import DiscoverCardIcon from '../../assets/images/discover.png';
 import {PaymentFormField, paymentFormFields} from "../../utils/formFields";
+import {useAppDispatch, useAppSelector} from "../../store";
+import {setPaymentFormData} from "../../store/reducers/checkoutSlice";
+import {PaymentFormData} from "../../types/checkout";
 
 const FormContainer = styled(Box)(() => ({
     maxWidth: '100%',
@@ -32,19 +35,12 @@ type Props = {
     showErrorMessage: boolean;
 }
 
-type FormData = {
-    [key: string]: string;
-}
-
 export const Payment: FC<Props> = ({ onFormSubmit, showErrorMessage }: Props) => {
-    const [formData, setFormData] = useState<FormData>({
-        cardNumber: '',
-        expirationDate: '',
-        cvv: '',
-        nameOnCard: '',
-    });
+    const dispatch = useAppDispatch();
+    const { paymentFormData } = useAppSelector((state) => state.checkout);
+    const [formData, setFormData] = useState<PaymentFormData>(paymentFormData);
 
-    const [errors, setErrors] = useState<FormData>({
+    const [errors, setErrors] = useState<PaymentFormData>({
         cardNumber: '',
         expirationDate: '',
         cvv: '',
@@ -57,7 +53,7 @@ export const Payment: FC<Props> = ({ onFormSubmit, showErrorMessage }: Props) =>
     };
 
     useEffect(() => {
-        const newErrors = {} as FormData;
+        const newErrors = {} as PaymentFormData;
 
         paymentFormFields.forEach((field: PaymentFormField) => {
             if (!formData[field.name] || !field.validation(formData[field.name])) {
@@ -72,6 +68,7 @@ export const Payment: FC<Props> = ({ onFormSubmit, showErrorMessage }: Props) =>
         if (Object.keys(newErrors).length === 0) {
             /*Todo: make api call to handle payment*/
             onFormSubmit(true);
+            dispatch(setPaymentFormData(formData))
         } else {
             onFormSubmit(false);
         }
@@ -95,6 +92,9 @@ export const Payment: FC<Props> = ({ onFormSubmit, showErrorMessage }: Props) =>
                         onChange={handleChange}
                         error={!!errors[field.name] && showErrorMessage}
                         helperText={showErrorMessage && errors[field.name]}
+                        FormHelperTextProps={{
+                            style: { marginLeft: 0 }
+                        }}
                         variant="outlined"
                         fullWidth
                         margin="normal"

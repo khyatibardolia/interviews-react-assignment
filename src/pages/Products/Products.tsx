@@ -19,7 +19,7 @@ const Products = () => {
 
   useEffect(() => {
       dispatch(fetchProducts());
-  }, [dispatch, page]);
+  }, [dispatch, page, categoryQuery]);
 
   const handleObserver = (entities: IntersectionObserverEntry[]) => {
     const target = entities[0];

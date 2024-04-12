@@ -35,5 +35,22 @@ export const initialState: RootState = {
         },
         loading: {},
         error: null
+    },
+    checkout: {
+        deliveryFormData: {
+            fullName: '',
+            email: '',
+            address: '',
+            city: '',
+            postalCode: '',
+            country: '',
+            deliverySlot: 'Morning (9 AM - 12 PM)'
+        },
+        paymentFormData: {
+            cardNumber: '',
+            expirationDate: '',
+            cvv: '',
+            nameOnCard: '',
+        }
     }
 };

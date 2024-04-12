@@ -1,11 +1,13 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import productsReducer from './reducers/productsSlice';
 import cartReducer from './reducers/cartSlice';
+import checkoutReducer from './reducers/checkoutSlice';
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux"; // Import your products reducer
 
 const rootReducer = combineReducers({
     products: productsReducer,
     cart: cartReducer,
+    checkout: checkoutReducer,
 });
 
 export const store = configureStore({
