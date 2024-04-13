@@ -12,6 +12,7 @@ export const AppRoutes = () => {
             <Routes>
                 <Route path="/" element={<ProductsComponent />} />
                 <Route path="/checkout" element={<CheckoutStepperComponent />} />
+                <Route path="*" element={<ProductsComponent />} />
             </Routes>
         </Suspense>
     );
